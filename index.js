@@ -10,10 +10,10 @@ app.use(express.urlencoded({extended: true}));
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/saa_2',
-  ssl: process.env.DATABASE_URL ? true : false
-  // ssl: {
-  //   rejectUnauthorized: false
-  // }
+  // ssl: process.env.DATABASE_URL ? true : false
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 client.connect();
