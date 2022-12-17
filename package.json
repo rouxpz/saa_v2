@@ -1,0 +1,17 @@
+{
+  "name": "saav2",
+  "version": "1.0.0",
+  "description": "Reboot of \"Sluts Across America\" for Node.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Roopa Vasudevan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "pg": "^8.8.0"
+  }
+}
