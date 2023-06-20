@@ -13,6 +13,20 @@
   <script type="text/javascript" src="javascript/oms.min.js"></script>
   <script type="text/javascript">
 
+			// let map;
+			//
+			// async function initMap() {
+			// 	const { Map } = await google.maps.importLibrary("maps");
+			// 	map = new Map(document.getElementById("map_canvas"), {
+			// 		center: { lat: 38.4230, lng: -98.7372 },
+			// 		zoom: 4.7,
+			// 	});
+			// }
+			//
+			// initMap();
+
+
+//OLD CODE TO DRAW FROM
     let map;
 		var geocoder;
 		var marker;
@@ -23,8 +37,9 @@
 		var mapData = [];
 
 		loadData();
+		// initialize();
 
-		function initialize() {
+		async function initialize() {
 
 	    var latlng = new google.maps.LatLng(38.4230, -98.7372);
 	    var mapOptions = {
@@ -80,7 +95,10 @@
 					map.setZoom(12);
 
 					document.getElementById("latlng").value = results[0].geometry.location;
-	      }
+					// console.log("found");
+	      } else {
+					console.log(e);
+				}
 	    });
 			$('#find').hide();
 			$('#captcha').slideDown();
