@@ -10,10 +10,10 @@ app.use(express.urlencoded({extended: true}));
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/saa_2',
-  // ssl: process.env.DATABASE_URL ? true : false
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: process.env.DATABASE_URL ? true : false
+  // ssl: {
+  //   rejectUnauthorized: false
+  // }
 });
 
 client.connect();
@@ -41,7 +41,11 @@ app.post('/', (req, res) => {
     let lng = latlng[1];
     // console.log(lng);
 
-    client.query('INSERT INTO submissions(statement,zipcode,latlng,lat, lng) VALUES($1, $2, $3, $4, $5)', [req.body.statement, req.body.zipcode, latlng, lat, lng]);
+    if (lng != null) {
+      client.query('INSERT INTO submissions(statement,zipcode,latlng,lat, lng) VALUES($1, $2, $3, $4, $5)', [req.body.statement, req.body.zipcode, latlng, lat, lng]);
+    } else {
+      console.log("spam submission");
+    }
 
     // console.log('done');
     var submissions;
