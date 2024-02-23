@@ -9,7 +9,7 @@
     #map_canvas { height: 100% }
   </style>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyoxb6LtRo3PapoE5bDnNecjZaKRfp2pY&callback=initialize"></script>
+
   <script type="text/javascript" src="javascript/oms.min.js"></script>
   <script type="text/javascript">
 
@@ -39,7 +39,7 @@
 		loadData();
 		// initialize();
 
-		async function initialize() {
+		function initialize() {
 
 	    var latlng = new google.maps.LatLng(38.4230, -98.7372);
 	    var mapOptions = {
@@ -81,12 +81,12 @@
 		function loadData() {
 			<% for (var i = 0; i < data.length; i++)  { %>
 					mapData.push(["<%= data[i].statement %>", "<%= data[i].lat %>", "<%= data[i].lng %>"]);
-					console.log(mapData.length);
+					// console.log(mapData.length);
 			<% } %>
 		}
 
 		function codeAddress() {
-	    var address = document.getElementById("zipcode").value;
+	    var address = document.getElementById("zipcode").value + " USA";
 
 	    geocoder.geocode( { 'address': address}, function(results, status) {
 	      if (status == google.maps.GeocoderStatus.OK) {
@@ -130,6 +130,6 @@
   <div class="gfx" id="about"><a href="/about"><img src="images/about.png" height="30"></a></div>
   <div class="gfx" id="contact"><a href="https://roopavasudevan.com"><img src="images/contact.png" height="30"></a></div>
   <div id="map_canvas" style="width:70%; height:93%">
-
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyoxb6LtRo3PapoE5bDnNecjZaKRfp2pY&callback=initialize"></script>
 </body>
 </html>
