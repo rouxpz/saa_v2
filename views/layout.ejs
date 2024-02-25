@@ -86,7 +86,13 @@
 		}
 
 		function codeAddress() {
-	    var address = document.getElementById("zipcode").value + " USA";
+	    var address = document.getElementById("zipcode").value;
+
+			if (address.length == 5 || address.length == 10) {
+				if (address.match(/^[0-9-]*$/) != null) {
+					address = address + " USA";
+				}
+			}
 
 	    geocoder.geocode( { 'address': address}, function(results, status) {
 	      if (status == google.maps.GeocoderStatus.OK) {
