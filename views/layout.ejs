@@ -80,7 +80,11 @@
 
 		function loadData() {
 			<% for (var i = 0; i < data.length; i++)  { %>
+				try {
 					mapData.push(["<%= data[i].statement %>", "<%= data[i].lat %>", "<%= data[i].lng %>"]);
+				} catch (error) {
+					console.error(error);
+				}				
 					// console.log(mapData.length);
 			<% } %>
 		}
