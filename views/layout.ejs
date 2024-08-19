@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>WE ARE ALL SLUTS</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css" />
-  <style type="text/css">
-    html { height: 100% }
-    body { height: 99%; margin: 0; padding: 0 }
-    #map_canvas { height: 100% }
-  </style>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<style type="text/css">
+		html {
+			height: 100%
+		}
 
-  <script type="text/javascript" src="javascript/oms.min.js"></script>
-  <script type="text/javascript">
+		body {
+			height: 99%;
+			margin: 0;
+			padding: 0
+		}
 
-			// let map;
-			//
-			// async function initMap() {
-			// 	const { Map } = await google.maps.importLibrary("maps");
-			// 	map = new Map(document.getElementById("map_canvas"), {
-			// 		center: { lat: 38.4230, lng: -98.7372 },
-			// 		zoom: 4.7,
-			// 	});
-			// }
-			//
-			// initMap();
+		#map_canvas {
+			height: 100%
+		}
+	</style>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+	<script type="text/javascript" src="javascript/oms.min.js"></script>
+	<script type="text/javascript">
+		// let map;
+		//
+		// async function initMap() {
+		// 	const { Map } = await google.maps.importLibrary("maps");
+		// 	map = new Map(document.getElementById("map_canvas"), {
+		// 		center: { lat: 38.4230, lng: -98.7372 },
+		// 		zoom: 4.7,
+		// 	});
+		// }
+		//
+		// initMap();
 
 
-//OLD CODE TO DRAW FROM
-    let map;
+		//OLD CODE TO DRAW FROM
+		let map;
 		var geocoder;
 		var marker;
 		var image = 'images/mudflap.png';
@@ -41,56 +51,69 @@
 
 		function initialize() {
 
-	    var latlng = new google.maps.LatLng(38.4230, -98.7372);
-	    var mapOptions = {
-	      zoom: 4.7,
-	      center: latlng
-	    }
-	    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+			let zoomAmt;
+
+			if(window.innerHeight > window.innerWidth){
+				zoomAmt = 3.7;
+			} else {
+				zoomAmt = 4.7;
+			}
+
+			var latlng = new google.maps.LatLng(38.4230, -98.7372);
+			var mapOptions = {
+				zoom: zoomAmt,
+				center: latlng
+			}
+			map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
 			geocoder = new google.maps.Geocoder();
 
 			infowindow = new google.maps.InfoWindow();
-			function iwClose() { infowindow.close(); }
-      google.maps.event.addListener(map, 'click', iwClose);
+
+			function iwClose() {
+				infowindow.close();
+			}
+			google.maps.event.addListener(map, 'click', iwClose);
 
 			var oms = new OverlappingMarkerSpiderfier(map, {
-			  markersWontMove: true,
-			  markersWontHide: true,
-			  basicFormatEvents: true
+				markersWontMove: true,
+				markersWontHide: true,
+				basicFormatEvents: true
 			});
 
-			for (var i = 0; i < mapData.length; i ++) {
-        (function() {  // make a closure over the marker and marker data
+			for (var i = 0; i < mapData.length; i++) {
+				(function() { // make a closure over the marker and marker data
 					var content = mapData[i][0];
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(mapData[i][1], mapData[i][2]),
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(mapData[i][1], mapData[i][2]),
 						icon: image
-          });
-          google.maps.event.addListener(marker, 'click', iwClose);
-          oms.addMarker(marker, function(e) {
+					});
+					google.maps.event.addListener(marker, 'click', iwClose);
+					oms.addMarker(marker, function(e) {
 						// alert(content);
-            infowindow.setContent('<img src= "images/slut.png" width="334" height="49"><p>' + content + '</p>');
-						infowindow.setOptions({maxWidth:370});
-            infowindow.open(map, marker);
-          });
-        })();
-      }
-	  }
+						infowindow.setContent('<img src= "images/slut.png" width="334" height="49"><p>' + content + '</p>');
+						infowindow.setOptions({
+							maxWidth: 370
+						});
+						infowindow.open(map, marker);
+					});
+				})();
+			}
+		}
 
 		function loadData() {
 			<% for (var i = 0; i < data.length; i++)  { %>
-				try {
-					mapData.push(["<%= data[i].statement %>", "<%= data[i].lat %>", "<%= data[i].lng %>"]);
-				} catch (error) {
-					console.error(error);
-				}				
-					// console.log(mapData.length);
+			try {
+				mapData.push(["<%= data[i].statement %>", "<%= data[i].lat %>", "<%= data[i].lng %>"]);
+			} catch (error) {
+				console.error(error);
+			}
+			// console.log(mapData.length);
 			<% } %>
 		}
 
 		function codeAddress() {
-	    var address = document.getElementById("zipcode").value;
+			var address = document.getElementById("zipcode").value;
 
 			if (address.length == 5 || address.length == 10) {
 				if (address.match(/^[0-9-]*$/) != null) {
@@ -98,24 +121,25 @@
 				}
 			}
 
-	    geocoder.geocode( { 'address': address}, function(results, status) {
-	      if (status == google.maps.GeocoderStatus.OK) {
+			geocoder.geocode({
+				'address': address
+			}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
 					console.log(results[0].geometry.location);
-	        map.setCenter(results[0].geometry.location);
+					map.setCenter(results[0].geometry.location);
 					map.setZoom(12);
 
 					document.getElementById("latlng").value = results[0].geometry.location;
 					// console.log("found");
-	      } else {
+				} else {
 					console.log(e);
 				}
-	    });
+			});
 			$('#find').hide();
 			$('#captcha').slideDown();
 			$('#execute').show();
-	  }
-
-  </script>
+		}
+	</script>
 </head>
 
 <body>
@@ -123,23 +147,29 @@
 		<script type="text/javascript">
 			alert("Sorry, you must contribute a unique message. Please try again.");
 		</script>
-	<% } %>
-  <div class="gfx" id="logo"><a href="/"><img src="images/logo2.png" width="300"></a></div>
-  <div class="gfx" id="quote"><img src="images/quote3.png" width="300"></div>
-  <div class ="gfx" id="submit">
-		<form class="" action="/" method="post">
-			<p><label><strong>I'm a slut because... </strong></label></br>
-			<textarea name="statement" id="statement" rows="3" cols="32" maxlength="200" placeholder="Why do you use or support birth control? (200 character max.)"></textarea></p>
-			<p><label><strong>Where are you? (zip code): </strong></label></br>
-			<input type="text" name="zipcode" id="zipcode">
-			<input type="hidden" name="latlng" id="latlng" value="">
-			<input type="button" id="find" value="Find me!" onclick="codeAddress()">
-			<input type="submit" id="execute" value="Submit"></p>
-		</form>
-  </div>
-  <div class="gfx" id="about"><a href="/about"><img src="images/about.png" height="30"></a></div>
-  <div class="gfx" id="contact"><a href="https://roopavasudevan.com"><img src="images/contact.png" height="30"></a></div>
-  <div id="map_canvas" style="width:72vw; height:93%; left:2%;">
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGpcRt_uJ_-YiZRE5t2dTqE2pZtUHZw1A&callback=initialize"></script>
+		<% } %>
+
+			<div class="gfx" id="logo"><a href="/"><img src="images/logo2.png"></a></div>
+			<div class="gfx" id="quote"><img src="images/quote3.png"></div>
+
+			<div class="map">
+				<div id="map_canvas"></div>
+			</div>
+
+			<div class="gfx" id="submit">
+				<form class="" action="/" method="post">
+					<p><label><strong>I'm a slut because... </strong></label></br>
+						<textarea name="statement" id="statement" rows="3" cols="32" maxlength="200" placeholder="Why do you use or support birth control? (200 character max.)"></textarea></p>
+					<p><label><strong>Where are you? (zip code): </strong></label></br>
+						<input type="text" name="zipcode" id="zipcode">
+						<input type="hidden" name="latlng" id="latlng" value="">
+						<input type="button" id="find" value="Find me!" onclick="codeAddress()">
+						<input type="submit" id="execute" value="Submit"></p>
+				</form>
+			</div>
+			<div class="gfx" id="about"><a href="/about"><img src="images/about.png" height="30"></a></div>
+			<div class="gfx" id="contact"><a href="https://roopavasudevan.com"><img src="images/contact.png" height="30"></a></div>
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGpcRt_uJ_-YiZRE5t2dTqE2pZtUHZw1A&callback=initialize"></script>
 </body>
+
 </html>
